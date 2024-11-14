@@ -7,6 +7,10 @@
 #include <Adafruit_SSD1306.h>
 #include <ArduinoJson.h>
 
+//Battery Section
+#include "Wire.h"
+#include "MAX17043.h"
+//Battery Section
 
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
@@ -238,14 +242,25 @@ class MyCallbacks: public BLECharacteristicCallbacks {
 
               const unsigned char* bitmap = getBitmap(turn);
               // Display the new message on the OLED
-              display.drawBitmap(0, 0,  bitmap, 40, 40, WHITE);
+              display.drawBitmap(44, 0,  bitmap, 40, 40, WHITE);
               display.setTextColor(WHITE);
-              display.setCursor(0, 42);
+              display.setCursor(44, 45);
               display.setTextSize(1.6);
               // display.println(turn); 
-              Serial.println(distance)
-              display.println(distance);
+              display.print(distance);
+              display.println(" m");
             }
+            //Battery Section
+            float volts = FuelGauge.voltage();
+            float pcnt = FuelGauge.percent();
+            Serial.printf("(%.1f%%)\n", pcnt);
+            display.setCursor(90, 10);
+            // char buffer[32];
+            // sprintf(buffer, "%.0f mV (%.1f%%)", volts, pcnt);
+            // display.println(buffer);
+            display.setTextSize(1);
+            display.printf("%.0f%%", pcnt);
+            //Battery Section
 
             display.display();
         }
@@ -254,6 +269,18 @@ class MyCallbacks: public BLECharacteristicCallbacks {
 
 void setup() {
     Serial.begin(115200);
+    
+    //Battery Section
+    Wire.begin(SDA, SCL);
+    if (!FuelGauge.begin(&Wire)) {
+      Serial.println("MAX17043 NOT found.\n");
+      while (true) {}
+    }
+    FuelGauge.reset();
+    delay(250);
+    FuelGauge.quickstart();
+    delay(125);
+    //Battery Section
 
     // Initialize OLED display
     if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { 
@@ -264,7 +291,20 @@ void setup() {
     display.setTextSize(1);
     display.setTextColor(WHITE);
     display.setCursor(0, 10);
-    display.println("Waiting for BLE...");
+    display.println("Disconnected");
+    
+    //Battery Section
+    float volts = FuelGauge.voltage();
+    float pcnt = FuelGauge.percent();
+    Serial.printf("%.0fmV (%.1f%%)\n", volts, pcnt);
+    display.setCursor(90, 10);
+    // char buffer[32];
+    // sprintf(buffer, "%.0f mV (%.1f%%)", volts, pcnt);
+    // display.println(buffer);
+    display.setTextSize(1);
+    display.printf("%.0f%%", pcnt);
+    //Battery Section
+
     display.display();
 
     // Initialize BLE
@@ -309,6 +349,15 @@ void loop() {
         display.setTextColor(WHITE);
         display.setCursor(0, 10);
         display.println("Start Advertising");
+        //Battery Section
+        float volts = FuelGauge.voltage();
+        float pcnt = FuelGauge.percent();
+        Serial.printf("%.0fmV (%.1f%%)\n", volts, pcnt);
+        display.setCursor(90, 10);
+        display.setTextSize(1);
+        display.printf("%.0f%%", pcnt);
+
+        //Battery Section
         display.display();
         oldDeviceConnected = deviceConnected;
     }

@@ -245,8 +245,8 @@ class MyCallbacks: public BLECharacteristicCallbacks {
               // Display the new message on the OLED
               display.drawBitmap(44, 0,  bitmap, 40, 40, WHITE);
               display.setTextColor(WHITE);
-              display.setCursor(44, 45);
-              display.setTextSize(1.6);
+              display.setCursor(44, 50);
+              display.setTextSize(2);
               // display.println(turn); 
               display.print(distance);
               display.println(" m");

@@ -252,15 +252,15 @@ class MyCallbacks: public BLECharacteristicCallbacks {
               display.println(" m");
             }
             //Battery Section
-            // float volts = FuelGauge.voltage();
-            // float pcnt = FuelGauge.percent();
-            // Serial.printf("(%.1f%%)\n", pcnt);
-            // display.setCursor(90, 10);
-            // // char buffer[32];
-            // // sprintf(buffer, "%.0f mV (%.1f%%)", volts, pcnt);
-            // // display.println(buffer);
-            // display.setTextSize(1);
-            // display.printf("%.0f%%", pcnt);
+            float volts = FuelGauge.voltage();
+            float pcnt = FuelGauge.percent();
+            Serial.printf("(%.1f%%)\n", pcnt);
+            display.setCursor(90, 10);
+            // char buffer[32];
+            // sprintf(buffer, "%.0f mV (%.1f%%)", volts, pcnt);
+            // display.println(buffer);
+            display.setTextSize(1);
+            display.printf("%.0f%%", pcnt);
             //Battery Section
 
             display.display();
@@ -272,15 +272,15 @@ void setup() {
     Serial.begin(115200);
     
     //Battery Section
-    // Wire.begin(SDA, SCL);
-    // if (!FuelGauge.begin(&Wire)) {
-    //   Serial.println("MAX17043 NOT found.\n");
-    //   while (true) {}
-    // }
-    // FuelGauge.reset();
-    // delay(250);
-    // FuelGauge.quickstart();
-    // delay(125);
+    Wire.begin(SDA, SCL);
+    if (!FuelGauge.begin(&Wire)) {
+      Serial.println("MAX17043 NOT found.\n");
+      while (true) {}
+    }
+    FuelGauge.reset();
+    delay(250);
+    FuelGauge.quickstart();
+    delay(125);
     //Battery Section
 
     // Initialize OLED display
@@ -295,15 +295,15 @@ void setup() {
     display.println("Disconnected");
     
     //Battery Section
-    // float volts = FuelGauge.voltage();
-    // float pcnt = FuelGauge.percent();
-    // Serial.printf("%.0fmV (%.1f%%)\n", volts, pcnt);
-    // display.setCursor(90, 10);
-    // // char buffer[32];
-    // // sprintf(buffer, "%.0f mV (%.1f%%)", volts, pcnt);
-    // // display.println(buffer);
-    // display.setTextSize(1);
-    // display.printf("%.0f%%", pcnt);
+    float volts = FuelGauge.voltage();
+    float pcnt = FuelGauge.percent();
+    Serial.printf("%.0fmV (%.1f%%)\n", volts, pcnt);
+    display.setCursor(90, 10);
+    // char buffer[32];
+    // sprintf(buffer, "%.0f mV (%.1f%%)", volts, pcnt);
+    // display.println(buffer);
+    display.setTextSize(1);
+    display.printf("%.0f%%", pcnt);
     //Battery Section
 
     display.display();
@@ -351,12 +351,12 @@ void loop() {
         display.setCursor(0, 10);
         display.println("Advertising");
         //Battery Section
-        // float volts = FuelGauge.voltage();
-        // float pcnt = FuelGauge.percent();
-        // Serial.printf("%.0fmV (%.1f%%)\n", volts, pcnt);
-        // display.setCursor(90, 10);
-        // display.setTextSize(1);
-        // display.printf("%.0f%%", pcnt);
+        float volts = FuelGauge.voltage();
+        float pcnt = FuelGauge.percent();
+        Serial.printf("%.0fmV (%.1f%%)\n", volts, pcnt);
+        display.setCursor(90, 10);
+        display.setTextSize(1);
+        display.printf("%.0f%%", pcnt);
 
         //Battery Section
         display.display();

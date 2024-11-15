@@ -272,15 +272,15 @@ void setup() {
     Serial.begin(115200);
     
     //Battery Section
-    Wire.begin(SDA, SCL);
-    if (!FuelGauge.begin(&Wire)) {
-      Serial.println("MAX17043 NOT found.\n");
-      while (true) {}
-    }
-    FuelGauge.reset();
-    delay(250);
-    FuelGauge.quickstart();
-    delay(125);
+    // Wire.begin(SDA, SCL);
+    // if (!FuelGauge.begin(&Wire)) {
+    //   Serial.println("MAX17043 NOT found.\n");
+    //   while (true) {}
+    // }
+    // FuelGauge.reset();
+    // delay(250);
+    // FuelGauge.quickstart();
+    // delay(125);
     //Battery Section
 
     // Initialize OLED display
